@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+ <!-- Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
+
+<!--CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link href="css/custom.css" rel="stylesheet">
+    
+<!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    
+</head>
+
+<body>
+    
+    <h1>When Can I Eat Again?!</h1><br>
+    
+    <h3>Feeling hungry?</h3>
+    
+    <input type="text" id="city" placeholder="Enter your city"><br><br>
+    
+    <button type="button" class="btn btn-success" id="button">Go</button> <br><br><br>
+    
+    <div class="largeText" id="output"></div>
+
+
+<script>
+
+    $("#button").click(function() {
+  
+
+var city = $('#city').val();
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+today = yyyy + '-' + mm + '-' + dd;
+        
+var lat;
+var lng;
+var sunriseUnix;
+var sunsetUnix;
+var sunrise;
+var sunset;
+var output;
+
+    
+$( document ).ready(function() {
+  var api_url1 = 'https://api.opencagedata.com/geocode/v1/json?q='+city+'&key=b13b9995ae434b7a9ea5406e685ddaba'
+    
+  $.getJSON(api_url1,function(json){
+    sunriseUnix = json.results[0].annotations.sun.rise.apparent;
+    sunsetUnix = json.results[0].annotations.sun.set.apparent;   
+    
+    console.log(sunriseUnix);
+    console.log(sunsetUnix);
+      
+
+    var date1 = new Date(sunriseUnix*1000);
+    var hours1 = date1.getHours();
+    var minutes1 = "0" + date1.getMinutes();
+    var seconds1 = "0" + date1.getSeconds();
+
+    var formattedTime1 = hours1 + ':' + minutes1.substr(-2);
+      
+
+    var date2 = new Date(sunsetUnix*1000);
+    var hours2 = date2.getHours();
+    var minutes2 = "0" + date2.getMinutes();
+    var seconds2 = "0" + date2.getSeconds();
+    var formattedTime2 = hours2 + ':' + minutes2.substr(-2);
+        
+            
+            output = "If you are up early, you still have until "+formattedTime1+". If not, dinner time starts at "+formattedTime2+".";
+            
+            $("#output").html(output);
+            
+            });
+                 
+});         
+   
+    }); //close on click function
+
+</script>
+    
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+body {
+    font-family: 'Raleway', sans-serif;
+    padding: 3rem;
+    text-align: center;
+}
+
+#zip {
+    text-align: center;
+}
+
+input {
+    text-align: center;
+}
+
+bold {
+    font-weight: bold;
+}
+
+largeText {
+    font-size: 550%;
+}
